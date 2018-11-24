@@ -15,18 +15,25 @@ tickets([25, 25, 50, 50, 100]) // => NO. Vasya will not have the right bills to 
 */
 
 function tickets(peopleInLine) {
-	let counter = 0;
+	let counter25 = 0;
+	let counter50 = 0;
 	for (let person of peopleInLine) {
 		if (person === 25) {
-			counter++;
+			counter25++;
 		}
 		if (person === 50) {
-			counter--;
+			counter50++;
+			counter25--;
 		}
 		if (person === 100) {
-			counter -= 3;
+			if (counter50 > 0) {
+				counter50--;
+				counter25--;
+			} else {
+				counter25 -= 3;
+			}
 		}
-		if (counter < 0) {
+		if (counter25 < 0 || counter50 < 0) {
 			console.log('nie mam wydać');
 			return 'NO';
 		}
@@ -35,5 +42,5 @@ function tickets(peopleInLine) {
 	return 'YES';
 }
 
-const people = [25, 25, 25, 100, 25, 50, 25];
+const people = [25, 50, 25, 100, 25, 50, 25];
 tickets(people);
